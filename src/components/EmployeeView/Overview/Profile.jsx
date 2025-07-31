@@ -1,7 +1,7 @@
 // CustomerRecommendation.jsx
 
 import React, { useState } from 'react';
-import { useStateContext } from "../../contexts/ContextProvider";
+import { useStateContext } from "../../../contexts/ContextProvider";
 // Dummy data for 20 customers
 const customers = Array.from({ length: 20 }, (_, index) => ({
   id: `CUST${String(index + 1).padStart(3, '0')}`,

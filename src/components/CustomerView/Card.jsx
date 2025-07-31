@@ -1,5 +1,5 @@
 import React from "react";
-import "./RecommandationCard.css";
+import "./Card.css";
 
 const Card = ({
   fee,
@@ -67,7 +67,7 @@ const Card = ({
       </div>
 
       {/* Additional Content */}
-      <div className="bg-transparent rounded-lg shadow-lg p-4 mt-4">
+      <div className="bg-blue-900/30 rounded-lg shadow-lg p-4 mt-4">
         <h3 className="font-bold mb-2 text-center text-blue-700">
           ✨ Key Benefits
         </h3>
@@ -82,7 +82,7 @@ const Card = ({
             </li>
           ))}
         </ul>
-        <div className="font-bold mt-4 text-white">Annual Fee: {fee}</div>
+        <div className="font-bold mt-4 text-gray-200">Annual Fee: {fee}</div>
       </div>
       <div className="mt-4">
         <button className="w-full bg-blue-600 text-white font-bold py-2 rounded-lg shadow-md hover:bg-blue-700 transition duration-300">

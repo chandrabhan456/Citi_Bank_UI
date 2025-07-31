@@ -9,7 +9,8 @@ import {
 import { BiSortAlt2 } from "react-icons/bi";
 import { MdDelete } from "react-icons/md";
 import "./searchbar.css";
-import { useStateContext } from "../../contexts/ContextProvider";
+import { useStateContext } from "../../../contexts/ContextProvider";
+
 
 import { useNavigate } from 'react-router-dom';
 
@@ -294,7 +295,7 @@ function TableView() {
   }
 
   return (
-    <div className="w-[160%] h-screen ">
+    <div className="w-[100%]  ">
       {/* Search and Title */}
       <div className="flex justify-between p-2 h-70 md:mx-0 relative w-full ">
         <div className="absolute inset-y-0 left-12 w-13  justify-center">
@@ -302,7 +303,7 @@ function TableView() {
             <div className="flex justify-between items-center">
               <div>
                 <div className="flex " style={{marginLeft:'-30px'}}>
-                  <p className="text-3xl font-extrabold tracking-tight text-white">
+                  <p className="text-xl font-extrabold tracking-tight text-white">
                     Customers portfolio Overview
                   </p>
                 </div>
@@ -312,7 +313,7 @@ function TableView() {
         </div>
         <div className="justify-end absolute w-50 right-0">
           <select
-            className="text-black outline-none bg-white dropdown"
+            className="text-black outline-none  dropdown"
             value={selectedCategory}
             onChange={handleCategoryChange}
           >
@@ -327,7 +328,7 @@ function TableView() {
       </div>
       {/* Table */}
 
-      <div className="mt-10 rounded-lg shadow">
+      <div className="mt-2 rounded-lg shadow">
         <table className="min-w-full divide-y divide-gray-200 border border-gray-600 rounded-lg overflow-hidden">
           <thead className="bg-[#52529a] text-white">
             <tr style={{ height: "55px" }}>

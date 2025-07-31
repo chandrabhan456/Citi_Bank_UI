@@ -28,7 +28,7 @@ function App() {
           <Login />
         ) : (
           <div className="flex flex-col min-h-screen">
-            <div className="fixed right-16 bottom-4" style={{ zIndex: "1000" }}>
+            <div className="fixed right-8 bottom-4" style={{ zIndex: "1000" }}>
               <button
                 type="button"
                 onClick={() => {

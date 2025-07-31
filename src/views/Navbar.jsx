@@ -40,7 +40,7 @@ const Navbar = () => {
           
             style={{ cursor: "pointer" }}
           >
-            Citi Bank
+          
           </div>
         </div>
 

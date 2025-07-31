@@ -1,9 +1,10 @@
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
 import Profile from "./Overview/Profile"; 
-
+import Analytics from "./Overview/Analytics";
 import Recommandation from "./Overview/Recommandation";
-import { useStateContext } from "../contexts/ContextProvider";
+import { useStateContext } from "../../contexts/ContextProvider";
+
 const CustomerView = () => {
   const { selectedCustomerId,showSection,setShowSection } = useStateContext();
   const navigate = useNavigate();
@@ -53,10 +54,9 @@ const CustomerView = () => {
           </div>
         )}
         {showSection === "button2" && (
-          <div className="p-6 bg-white rounded-lg shadow-lg text-black">
-            {/* Analytics Content */}
-            <h2 className="font-bold text-2xl mb-2">Analytics Section</h2>
-            <p>This is the Analytics content.</p>
+                  <div className="flex justify-center items-center w-full p-6 bg-[#1D2041] rounded-lg shadow-lg">
+            {/* Customer Recommendation Content */}
+          <Analytics />
           </div>
         )}
         {showSection === "button3" && (

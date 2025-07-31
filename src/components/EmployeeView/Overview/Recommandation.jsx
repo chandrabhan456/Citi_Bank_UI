@@ -57,7 +57,7 @@ function Customer() {
   ];
 
   return (
-    <div className="min-h-screen flex justify-center">
+    <div className="min-h-screen flex bg-[#1D2041] border border-gray-700 shadow-lg rounded-xl justify-center" style={{marginTop:'-20px'}}>
       <div className="flex flex-wrap justify-center gap-8">
         {cardsData.map((cardData, index) => (
           <Card key={index} {...cardData} />
