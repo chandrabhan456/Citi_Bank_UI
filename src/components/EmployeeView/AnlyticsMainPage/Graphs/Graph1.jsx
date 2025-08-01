@@ -1,10 +1,14 @@
 import React from 'react';
 import { Bar } from 'react-chartjs-2';
-import { Chart as ChartJS } from 'chart.js/auto';
+import { Chart as ChartJS, CategoryScale, LinearScale, BarElement, Title, Tooltip } from 'chart.js';
+import ChartDataLabels from 'chartjs-plugin-datalabels';
+
+// Register necessary components and plugins
+ChartJS.register(CategoryScale, LinearScale, BarElement, Title, Tooltip, ChartDataLabels);
 
 const Graph1 = () => {
-  // Dummy data
-  const data = {
+  // Define data for the chart
+  const chartData = {
     labels: [
       'Travel', 'Online Shopping', 'Fashion', 'Entertainment', 'Dining', 'Wellness', 
       'Groceries', 'Tech', 'Home Supplies', 'Retail', 'Fitness', 'Education', 
@@ -21,37 +25,73 @@ const Graph1 = () => {
     ],
   };
 
-  const options = {
-    plugins: {
+  // Chart options
+ const options = {
+  plugins: {
+    legend: {
+      display: false, // Hide the legend
+    },
+    datalabels: {
+      align: 'end',
+      anchor: 'end',
+      formatter: Math.round,
+      color: 'black', // Set data label text color to black
+    },
+    title: {
+      display: true, // Enable the title
+      text: 'Total Spendings by Category',
+      color: 'black', // Set the title color
+      font: {
+        size: 16, // Set the title font size
+        weight: 'bold', // Make the title bold
+      },
+    },
+  },
+  scales: {
+    x: {
       title: {
         display: true,
-        text: 'Total Spending by Category',
-        color: 'white',  // Title color
-      },
-      legend: {
-        display: false,  // Hide legend for simplicity
-      },
-    },
-    scales: {
-      x: {
-        ticks: {
-          color: 'white',  // X-axis labels color
+        text: 'Category',
+        color: 'grey', // Set x-axis title color to grey
+        font: {
+          size: 14, // Make the title slightly larger
+          weight: 'bold', // Make the title bold
         },
       },
-      y: {
-        beginAtZero: true,
-        ticks: {
-          color: 'white',  // Y-axis labels color
+      ticks: {
+        color: 'black', // Set x-axis ticks color to black
+        font: {
+          size: 12, // Set tick label size
         },
       },
     },
-  };
+    y: {
+      beginAtZero: true,
+      title: {
+        display: true,
+        text: 'Total Spendings($)',
+        color: 'grey', // Set y-axis title color to grey
+        font: {
+          size: 14, // Make the title slightly larger
+          weight: 'bold', // Make the title bold
+        },
+      },
+      ticks: {
+        color: 'black', // Set y-axis ticks color to black
+        font: {
+          size: 12, // Set tick label size
+        },
+      },
+    },
+  },
+  maintainAspectRatio: false, // Allow the chart to fill the container
+};
 
-  return (
-    <div style={{ width: '100%', margin: '0 auto', boxShadow: '0 4px 8px rgba(0, 0, 0, 0.5)', borderRadius: '8px', backgroundColor: '#1d2041', padding: '20px' }}>
-      <Bar data={data} options={options} />
-    </div>
-  );
+ return (
+     <div style={{ height: '400px', maxWidth: '800px', margin: '0 auto' }}>
+       <Bar data={chartData} options={options} />
+     </div>
+   );
 };
 
 export default Graph1;

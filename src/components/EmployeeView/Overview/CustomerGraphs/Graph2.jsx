@@ -1,6 +1,6 @@
 import React from "react";
 
-const Graph3 = () => {
+const Graph2 = () => {
   const recommendationData = [
     { name: "Chase Sapphire Preferred", percentage: 75, color: "#2196F3" },
     { name: "Capital One Venture X", percentage: 60, color: "#64B5F6" },
@@ -50,4 +50,4 @@ const Graph3 = () => {
   );
 };
 
-export default Graph3;
+export default Graph2;

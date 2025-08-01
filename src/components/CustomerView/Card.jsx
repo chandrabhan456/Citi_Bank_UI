@@ -1,5 +1,6 @@
-import React from "react";
+import React, { useEffect, useState } from 'react';
 import "./Card.css";
+
 
 const Card = ({
   fee,
@@ -12,9 +13,40 @@ const Card = ({
   gradientFrom,
   gradientTo,
 }) => {
+  const [customerData, setCustomerData] = useState(null);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
+
+  useEffect(() => {
+    const fetchCustomerData = async () => {
+      try {
+        setLoading(true);
+        setError(null);
+        const response = await fetch(
+          `http://127.0.0.1:5000/recommend?customer_id=CUST001`,
+          {
+            method: "GET",
+          }
+        );
+        if (!response.ok) {
+          throw new Error(`Failed to fetch customer data: ${response.statusText}`);
+        }
+        const data = await response.json();
+        setCustomerData(data);
+      } catch (err) {
+        setError(err.message);
+        setCustomerData(null);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchCustomerData();
+  }, []);
+
   return (
     <div className="card-container">
-      <div className="card">
+      <div className="card ">
         {/* Front Side */}
         <div
           className="card-front"
@@ -67,7 +99,7 @@ const Card = ({
       </div>
 
       {/* Additional Content */}
-      <div className="bg-blue-900/30 rounded-lg shadow-lg p-4 mt-4">
+      <div className="bg-blue-900/30 w-80 rounded-lg shadow-lg p-4 mt-4">
         <h3 className="font-bold mb-2 text-center text-blue-700">
           ✨ Key Benefits
         </h3>
@@ -82,13 +114,33 @@ const Card = ({
             </li>
           ))}
         </ul>
-        <div className="font-bold mt-4 text-gray-200">Annual Fee: {fee}</div>
+        <div className="font-bold mt-4 text-white">Annual Fee: {fee}</div>
       </div>
       <div className="mt-4">
         <button className="w-full bg-blue-600 text-white font-bold py-2 rounded-lg shadow-md hover:bg-blue-700 transition duration-300">
           Apply for {type}
         </button>
       </div>
+
+      {/* Reason Box */}
+      {/* <div className="mt-4 w-80">
+        {loading ? (
+          <div className="text-gray-500 text-center">Loading reason...</div>
+        ) : error ? (
+          <div className="text-red-500 text-center">Error: {error}</div>
+        ) : customerData && customerData.recommendation_reasoning && (
+          <div className="bg-yellow-50 border-l-4 border-yellow-400 p-4 shadow">
+            <div className="font-semibold text-yellow-800 mb-2">
+              Why {type} is recommended for you:
+            </div>
+            <div className="text-gray-800">
+              {customerData.recommendation_reasoning[type]
+                ? customerData.recommendation_reasoning[type]
+                : "No specific reason found for this card."}
+            </div>
+          </div>
+        )}
+      </div> */}
     </div>
   );
 };

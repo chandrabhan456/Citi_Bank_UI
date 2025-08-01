@@ -14,7 +14,7 @@ const Chatbot = () => {
   // Initialize messages with the initial message from the chatbot
   const [messages, setMessages] = useState([
     {
-      message: "Hi Michel, How can I assist you?",
+      message: "Hi , How can I assist you?",
       direction: 'incoming',
       sender: 'bot'
     }
@@ -33,17 +33,17 @@ const Chatbot = () => {
 
     // Call fetch POST API
     try {
-      const response = await fetch('https://your-api-url.com/endpoint', {
+      const response = await fetch('http://127.0.0.1:5000/chatbot_endpoint', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify({ message: newMessage.message }),
+        body: JSON.stringify({ user_question: newMessage.message }),
       });
 
       const data = await response.json();
       const botMessage = {
-        message: data.reply,  // Assuming the API returns a reply in a field called 'reply'
+        message: data.response,  // Assuming the API returns a reply in a field called 'reply'
         direction: 'incoming',
         sender: 'bot'
       };
@@ -80,7 +80,7 @@ const Chatbot = () => {
       <ChatContainer>
         <MessageList
           scrollBehavior="smooth"
-          typingIndicator={isTyping ? <TypingIndicator content="ChatGPT is typing" /> : null}
+          typingIndicator={isTyping ? <TypingIndicator content="AI Assistant is typing" /> : null}
         >
           {messages.map((message, i) => (
             <Message key={i} model={message} />

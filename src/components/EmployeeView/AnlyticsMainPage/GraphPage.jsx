@@ -72,10 +72,10 @@ const GraphPage = () => {
             transition: 'background-color 0.3s',
           }}
         >
-          Graph 3
+          Performance
         </button>
       </div>
-      <div className='mt-2'>
+      <div className='mt-8 bg-white'>
         {renderGraph()}
       </div>
     </div>

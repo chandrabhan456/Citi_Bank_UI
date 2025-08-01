@@ -46,8 +46,8 @@ const Login = () => {
 <div className="login">
   <div className='flex gap-20'>
    <div className="citi-header fade-in">
-    <div className="citi-logo">🏦 CITI BANK</div>
-    <div className="citi-subtitle t">Advanced Employee Credit Card Recommendation Dashboard</div>
+    {/* <div className="citi-logo">🏦 CITI BANK</div> */}
+    <div className="citi-subtitle mt-20">Advanced Employee Credit Card Recommendation Dashboard</div>
     <p >Empowering intelligent customer relationships through AI-driven insights</p>
 </div>
 	 <div className="login-form">

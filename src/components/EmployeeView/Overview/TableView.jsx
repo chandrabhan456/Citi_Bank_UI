@@ -14,16 +14,16 @@ import { useStateContext } from "../../../contexts/ContextProvider";
 
 import { useNavigate } from 'react-router-dom';
 
-const columnWidths = ["15%", "15%", "20%", "20%", "20%", "12%"];
-
+const columnWidths = ["15%", "10%", "20%", "20%", "15%", "20%"];
 const customerHeaders = [
   { key: "id", label: "Customer ID" },
-  { key: "name", label: "Customer Name" },
-  { key: "spend", label: "Annual Spend" },
-  { key: "category", label: "Primary Category" },
+  { key: "age", label: "Age" },
+  { key: "annual_income", label: "Annual Income" },
+  { key: "annual_spend", label: "Annual Spend" },
   { key: "credit_score", label: "Credit Score" },
-  { key: "status", label: "Status" },
+  { key: "life_event", label: "Life Event" },
 ];
+
 const customerData = [
   {
     id: "CUST001",
@@ -196,13 +196,13 @@ const categories = [
   { id: 6, category: "Wellness" },
 ];
 
-function TableView() {
+function TableView({data}) {
   const [currentPage, setCurrentPage] = useState(1);
-  const { isDelete, setIsDelete, selectedCustomerId, setSelectedCustomerId } =
+  const { selectedCategory, setSelectedCustomerId } =
     useStateContext();
   const [inputText, setInputText] = useState("");
   const [selects, setSelects] = useState(5);
-  const [selectedCategory, setSelectedCategory] = useState("");
+
 
   const [sort, setSort] = useState({
     keyToSort: "name",
@@ -211,35 +211,8 @@ function TableView() {
   const [users, setUsers] = useState([]);
   const [error, setError] = useState(null);
    const navigate = useNavigate();
-  // Fetch data
-  useEffect(() => {
-    const fetchUsers = async () => {
-      try {
-        const response = await fetch(
-          "http://localhost:8000/users/get_all_users",
-          {
-            method: "GET",
-            headers: {
-              "Content-Type": "application/json",
-            },
-            credentials: "include",
-          }
-        );
-        if (!response.ok) throw new Error("Network response was not ok");
-        const data = await response.json();
-        setUsers(data);
-        setIsDelete(false);
-      } catch (error) {
-        setUsers(customerData);
-        setError(error);
-      }
-    };
-
-    fetchUsers();
-  }, []);
-  const handleCategoryChange = (e) => {
-    setSelectedCategory(e.target.value);
-  };
+ 
+ 
   // Event handler to capture the customerID when a row is clicked
   const handleRowClick = (customerID) => {
     console.log("Customer ID:", customerID);
@@ -247,29 +220,31 @@ function TableView() {
     navigate('/customerView')
     // You can add more logic here, such as navigating to a customer detail page or updating state
   };
-  let filteredUsers = users;
-  if (selectedCategory) {
-    // Filter only if a specific category is selected
-    filteredUsers = users.filter(
-      (el) => el.category.toLowerCase() === selectedCategory.toLowerCase()
-    );
-  }
-  // Sort users if needed
-  if (sort.keyToSort) {
-    filteredUsers.sort((a, b) => {
-      if (sort.direction === "asc") {
-        return a[sort.keyToSort] > b[sort.keyToSort] ? 1 : -1;
-      }
-      return a[sort.keyToSort] < b[sort.keyToSort] ? 1 : -1;
-    });
-  }
+ let filteredUsers = Array.isArray(data) ? data : [];
 
-  // Pagination
-  const recordsPerPage = selects;
-  const lastIndex = currentPage * recordsPerPage;
-  const firstIndex = lastIndex - recordsPerPage;
-  const records = filteredUsers.slice(firstIndex, lastIndex);
-  const npage = Math.ceil(filteredUsers.length / recordsPerPage);
+// Filtering
+if (selectedCategory) {
+  filteredUsers = filteredUsers.filter(
+    (el) => el.persona && el.persona.toLowerCase() === selectedCategory.toLowerCase()
+  );
+}
+
+// Sorting
+if (sort.keyToSort) {
+  filteredUsers = [...filteredUsers].sort((a, b) => {
+    if (sort.direction === "asc") {
+      return a[sort.keyToSort] > b[sort.keyToSort] ? 1 : -1;
+    }
+    return a[sort.keyToSort] < b[sort.keyToSort] ? 1 : -1;
+  });
+}
+
+// Pagination
+const recordsPerPage = selects;
+const lastIndex = currentPage * recordsPerPage;
+const firstIndex = lastIndex - recordsPerPage;
+const records = filteredUsers.slice(firstIndex, lastIndex);
+const npage = Math.ceil(filteredUsers.length / recordsPerPage);
 
   // Now, `records` contains the paginated, filtered, and sorted users.
 
@@ -295,7 +270,7 @@ function TableView() {
   }
 
   return (
-    <div className="w-[100%]  ">
+    <div className="w-[98%]  " style={{marginTop:'-40px'}}>
       {/* Search and Title */}
       <div className="flex justify-between p-2 h-70 md:mx-0 relative w-full ">
         <div className="absolute inset-y-0 left-12 w-13  justify-center">
@@ -303,15 +278,13 @@ function TableView() {
             <div className="flex justify-between items-center">
               <div>
                 <div className="flex " style={{marginLeft:'-30px'}}>
-                  <p className="text-xl font-extrabold tracking-tight text-white">
-                    Customers portfolio Overview
-                  </p>
+                
                 </div>
               </div>
             </div>
           </div>
         </div>
-        <div className="justify-end absolute w-50 right-0">
+       {/* <div className="justify-end absolute w-50 right-0">
           <select
             className="text-black outline-none  dropdown"
             value={selectedCategory}
@@ -324,11 +297,11 @@ function TableView() {
               </option>
             ))}
           </select>
-        </div>
+        </div>*/}
       </div>
       {/* Table */}
 
-      <div className="mt-2 rounded-lg shadow">
+      <div className=" rounded-lg shadow">
         <table className="min-w-full divide-y divide-gray-200 border border-gray-600 rounded-lg overflow-hidden">
           <thead className="bg-[#52529a] text-white">
             <tr style={{ height: "55px" }}>
@@ -360,19 +333,19 @@ function TableView() {
                   {item.id}
                 </td>
                 <td className="px-4 py-2 border-b border-gray-600">
-                  {item.name}
+                  {item.age}
                 </td>
                 <td className="px-4 py-2 border-b border-gray-600">
-                  {item.spend}
+                  {item.annual_income}
                 </td>
                 <td className="px-4 py-2 border-b border-gray-600">
-                  {item.category}
+                  {item.annual_spend}
                 </td>
                 <td className="px-4 py-2 border-b border-gray-600">
                   {item.credit_score}
                 </td>
                 <td className="px-4 py-2 border-b border-gray-600">
-                  {item.status}
+                  {item.life_event}
                 </td>
               </tr>
             ))}
@@ -382,21 +355,21 @@ function TableView() {
 
       {/* Pagination */}
       <div className="flex justify-between p-2 md:mx-0 relative w-full">
-        <div className="flex ml-10 mt-2">
+        <div className="flex ml-2 ">
           <div className="text-white">Items per Page</div>
-          <div className="ml-2">
-            <select
+          <div className="ml-2 bg-transparent">
+            <select   className="bg-transparent border border-white rounded px-2 py-1 text-white cursor-pointer"
               value={selects}
               onChange={(e) => setSelects(Number(e.target.value))}
             >
-              <option value={5}>5</option>
+              <option  value={5}>5</option>
               <option value={10}>10</option>
               <option value={12}>12</option>
               <option value={15}>15</option>
             </select>
           </div>
         </div>
-        <div className="justify-end absolute right-0 mt-2">
+        <div className="justify-end absolute right-0 ">
           <div className="flex items-center">
             <span className="text-white mr-6 whitespace-nowrap">
               Showing page {currentPage} of {npage}

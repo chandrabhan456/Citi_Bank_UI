@@ -1,4 +1,4 @@
-import React from 'react';
+import React,{useState,useEffect} from 'react';
 import { useNavigate } from 'react-router-dom';
 import Profile from "./Overview/Profile"; 
 import Analytics from "./Overview/Analytics";
@@ -6,8 +6,11 @@ import Recommandation from "./Overview/Recommandation";
 import { useStateContext } from "../../contexts/ContextProvider";
 
 const CustomerView = () => {
-  const { selectedCustomerId,showSection,setShowSection } = useStateContext();
+  const { showSection,setShowSection, } = useStateContext();
+  
+
   const navigate = useNavigate();
+  
   const handleButtonClick = (buttonName) => {
     setShowSection(buttonName);
   };
@@ -29,7 +32,7 @@ const CustomerView = () => {
           className="px-6 py-3 bg-gradient-to-r from-purple-700 via-indigo-600 to-blue-500 text-white text-xl font-bold rounded-full shadow-2xl border-b-4 border-indigo-900 focus:outline-none"
           onClick={() => handleButtonClick("button1")}
         >
-      Costomer Profile
+      Customer Profile
         </button>
         <button
           className="px-6 py-3 bg-gradient-to-r from-pink-500 via-red-500 to-yellow-500 text-white text-xl font-bold rounded-full shadow-2xl border-b-4 border-red-900 focus:outline-none"

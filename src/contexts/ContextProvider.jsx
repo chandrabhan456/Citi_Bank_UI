@@ -29,9 +29,12 @@ export const ContextProvider = ({ children }) => {
   const [chatbot, setChatbot] = useState(false);
   const [userProfile, setUserProfile] = useState(false);
   const [login1, setlogin1] = useState(initialLoginState);
-  const [selectedRole,setSelectedRole]=useState('')
-  const [selectedCustomerId,setSelectedCustomerId]=useState(null)
-    const [showSection, setShowSection] = useState("button1");
+  const [selectedRole, setSelectedRole] = useState("");
+  const [selectedCustomerId, setSelectedCustomerId] = useState(null);
+  const [showSection, setShowSection] = useState("button1");
+   const [selectedCategory, setSelectedCategory] = useState();
+  const [recommendation, setRecommendations] = useState("");
+   const [selectedCustomerRecommendation, setSelectedCustomerRecommendations] = useState("");
   useEffect(() => {
     localStorage.setItem("login", login1);
   }, [login1]);
@@ -54,8 +57,14 @@ export const ContextProvider = ({ children }) => {
         setSelectedRole,
         selectedCustomerId,
         setSelectedCustomerId,
-        showSection, 
-        setShowSection
+        showSection,
+        setShowSection,
+        recommendation,
+        setRecommendations,
+        selectedCustomerRecommendation, 
+        setSelectedCustomerRecommendations,
+        selectedCategory, 
+        setSelectedCategory
       }}
     >
       {children}

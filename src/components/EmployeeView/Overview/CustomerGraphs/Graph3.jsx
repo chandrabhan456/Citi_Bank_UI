@@ -6,19 +6,20 @@ import ChartDataLabels from 'chartjs-plugin-datalabels';
 // Register necessary components and plugins
 ChartJS.register(CategoryScale, LinearScale, BarElement, Title, Tooltip, ChartDataLabels);
 
-const Graph2 = () => {
-  // Define data for the chart
+const Graph3 = ({ data }) => {
+  // Extract card names and revenue values from the data
+  const cards = Object.keys(data.revenue_by_card);
+  const revenues = Object.values(data.revenue_by_card);
+
+  // Prepare data for the chart
   const chartData = {
-    labels: [
-      'Cashback Master', 'E-Shopper', 'International Gold', 'Family Planner',
-      'Frequent Flyer', 'Fuel Saver', 'Student Achieve', 'Travel Elite', 'Weekend Boost'
-    ],
+    labels: cards,
     datasets: [
       {
-        label: 'Revenue ($)',
-        data: [150, 100, 200, 350, 400, 50, 75, 250, 500],
-        backgroundColor: 'rgba(34, 139, 34, 0.8)',  // Green color with slight transparency
-        borderColor: 'rgba(34, 139, 34, 1)',        // Solid green border
+        label: 'Revenue by Card',
+        data: revenues,
+        backgroundColor: 'rgba(54, 162, 235, 0.6)', // Blue color
+        borderColor: 'rgba(54, 162, 235, 1)',
         borderWidth: 1,
       },
     ],
@@ -38,11 +39,14 @@ const Graph2 = () => {
     },
     title: {
       display: true, // Enable the title
-      text: 'Revenue Generated for Credit Card Campaign', // Set the title text
+      text: 'Revenue Generated for Credit Card Campaign',
       color: 'black', // Set the title color
       font: {
         size: 16, // Set the title font size
         weight: 'bold', // Make the title bold
+      },
+      padding: {
+        bottom: 20, // Add space below the title
       },
     },
   },
@@ -50,7 +54,7 @@ const Graph2 = () => {
     x: {
       title: {
         display: true,
-        text: 'Credit Card Campaign',
+        text: 'Card Type',
         color: 'grey', // Set x-axis title color to grey
         font: {
           size: 14, // Make the title slightly larger
@@ -68,7 +72,7 @@ const Graph2 = () => {
       beginAtZero: true,
       title: {
         display: true,
-        text: 'Revenue($)',
+        text: 'Revenue',
         color: 'grey', // Set y-axis title color to grey
         font: {
           size: 14, // Make the title slightly larger
@@ -83,15 +87,11 @@ const Graph2 = () => {
       },
     },
   },
-  maintainAspectRatio: false, // Allow the chart to fill the container
 };
 
 
-  return (
-    <div style={{ height: '400px', maxWidth: '800px', margin: '0 auto' }}>
-      <Bar data={chartData} options={options} />
-    </div>
-  );
+
+  return <Bar data={chartData} options={options} />;
 };
 
-export default Graph2;
+export default Graph3;

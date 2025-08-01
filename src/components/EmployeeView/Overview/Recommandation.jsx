@@ -1,11 +1,9 @@
-import React, {useEffect} from 'react';
+import React, {useEffect,useState} from 'react';
 import Card from './RecommandationCard';
-
+import { useStateContext } from "../../../contexts/ContextProvider";
 function Customer() {
-
-  
-
-  const cardsData = [
+    const { selectedCustomerId, recommendation ,selectedCustomerRecommendation, } = useStateContext();
+  const dummyCards = [
     {
       fee: '$95',
       type: 'Travel Elite',
@@ -55,6 +53,50 @@ function Customer() {
       gradientTo: '#FF69B4'    // Pink gradient end
     }
   ];
+const [cardsData, setCardsData] = useState([]);
+function getDummyCardDetails(type) {
+  return dummyCards.find(card => card.type === type) || {};
+}
+const gradientColors = [
+  { gradientFrom: '#7B2FF7', gradientTo: '#F107A3' },   // 1: Purple
+  { gradientFrom: '#00C9FF', gradientTo: '#92FE9D' },   // 2: Blue
+  { gradientFrom: '#FFB6C1', gradientTo: '#FF69B4' }    // 3: Pink
+];
+useEffect(() => {
+  // fetch recommendation as before
+  async function fetchData() {
+ 
+
+  const recommendations = selectedCustomerRecommendation.recommendations;
+    
+ console.log("data areeeeeeee",recommendations)
+    const cards = [1, 2, 3].map(num => {
+      const cardType = recommendations[`top_${num}_card`];
+      const features = recommendations[`top_${num}_card_features`];
+      const featureList = features.split('\n').map(f => f.trim()).filter(Boolean);
+
+      const dummy = getDummyCardDetails(cardType, dummyCards);
+
+      return {
+        type: cardType,
+        benefits: featureList,
+        fee: dummy.fee || 'N/A',
+        cardno: dummy.cardno || 'XXXX XXXX XXXX',
+        valid: dummy.valid || '--/-- VALID THRU',
+        cvv: dummy.cvv || '---',
+        name: dummy.name || 'Your Name',
+       // Hardcoded gradients by position
+    gradientFrom: gradientColors[num - 1].gradientFrom,
+    gradientTo: gradientColors[num - 1].gradientTo
+
+      };
+    });
+
+    setCardsData(cards);
+  }
+
+  fetchData();
+}, []);
 
   return (
     <div className="min-h-screen flex bg-[#1D2041] border border-gray-700 shadow-lg rounded-xl justify-center" style={{marginTop:'-20px'}}>
